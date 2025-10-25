@@ -8,6 +8,8 @@ import com.dmkcompany.pizza.service.CartItemService;
 import com.dmkcompany.pizza.service.CartService;
 import com.dmkcompany.pizza.service.ProductService;
 import com.dmkcompany.pizza.service.PizzaSizeService;
+import com.dmkcompany.pizza.strategy.DiscountCalculator;
+import com.dmkcompany.pizza.template.StandardOrderProcessor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ public class CartController {
     private final OrderFacade orderFacade;
     private final ProductService productService;
     private final PizzaSizeService pizzaSizeService;
+    private final DiscountCalculator discountCalculator;
 
     @GetMapping
     public String viewCart(Model model) {
@@ -35,8 +38,8 @@ public class CartController {
         }
 
         Double totalAmount = cart.getTotalAmount();
-        Double finalAmount = orderFacade.calculateFinalAmount(cart);
-        Double discount = orderFacade.calculateTotalDiscount(cart);
+        Double discount = discountCalculator.calculateDiscountAmount(cart);
+        Double finalAmount = discountCalculator.calculateFinalAmount(cart);
 
         Double roundedTotalAmount = (double) Math.round(totalAmount);
         Double roundedFinalAmount = (double) Math.round(finalAmount);

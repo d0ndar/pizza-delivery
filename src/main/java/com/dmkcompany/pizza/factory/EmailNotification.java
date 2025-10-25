@@ -10,7 +10,7 @@ public class EmailNotification implements Notification {
     @Override
     public void send(NotificationMessage message) {
         // В реальном проекте здесь должна быть интеграция с почтовым сервисом
-
+    
         log.info("📧 ОТПРАВКА EMAIL:");
         log.info("Кому: {}", message.getTo());
         log.info("Тема: {}", message.getSubject());

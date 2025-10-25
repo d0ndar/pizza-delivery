@@ -14,7 +14,9 @@ public class Order {
     private final Double discount;
     private final Double finalAmount;
     private final LocalDateTime orderTime;
-    private final OrderStatus status;
+    private OrderStatus status;
+    private String customerEmail;
+    private String customerPhone;
 
     private Order(OrderBuilder builder) {
         this.orderNumber = builder.orderNumber;
@@ -27,13 +29,14 @@ public class Order {
         this.finalAmount = builder.finalAmount;
         this.orderTime = LocalDateTime.now();
         this.status = OrderStatus.PENDING;
+        this.customerEmail = builder.customerEmail;
+        this.customerPhone = builder.customerPhone;
     }
 
     public static OrderBuilder builder() {
         return new OrderBuilder();
     }
 
-    // Builder класс
     public static class OrderBuilder {
         private String orderNumber;
         private Cart cart;
@@ -43,6 +46,18 @@ public class Order {
         private Double totalAmount;
         private Double discount;
         private Double finalAmount;
+        private String customerEmail;
+        private String customerPhone;
+
+        public OrderBuilder customerEmail(String customerEmail) {
+            this.customerEmail = customerEmail;
+            return this;
+        }
+
+        public OrderBuilder customerPhone(String customerPhone) {
+            this.customerPhone = customerPhone;
+            return this;
+        }
 
         public OrderBuilder orderNumber(String orderNumber) {
             this.orderNumber = orderNumber;
@@ -92,7 +107,6 @@ public class Order {
             if (deliveryAddress == null || deliveryAddress.trim().isEmpty()) {
                 throw new IllegalStateException("Адрес доставки обязателен");
             }
-
             if (orderNumber == null) {
                 this.orderNumber = "ORD-" + System.currentTimeMillis();
             }
